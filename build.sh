@@ -1,0 +1,29 @@
+#!/bin/bash
+set -ex
+
+SCRIPT_DIR="$(dirname $(readlink -f "$0"))"
+PROJ_ROOT_DIR=$SCRIPT_DIR
+
+GTEST_DIR="$PROJ_ROOT_DIR/depends/gtest"
+GTEST_INCLUDE_DIR="$GTEST_DIR/include"
+GTEST_LIB_DIR="$GTEST_DIR/lib"
+
+OPENCV_DIR="$PROJ_ROOT_DIR/depends/opencv"
+OPENCV_INCLUDE_DIR="$OPENCV_DIR/include"
+OPENCV_LIB_DIR="$OPENCV_DIR/lib"
+
+BUILD_DIR="$PROJ_ROOT_DIR/build"
+OUTPUT_DIR="$PROJ_ROOT_DIR/output"
+mkdir -p $BUILD_DIR
+mkdir -p $OUTPUT_DIR
+
+cd $BUILD_DIR
+cmake .. \
+    -DOUTPUT_DIR=$OUTPUT_DIR \
+    -DGTEST_LIB_DIR=$GTEST_LIB_DIR \
+    -DOPENCV_LIB_DIR=$OPENCV_LIB_DIR \
+    -DGTEST_INCLUDE_DIR=$GTEST_INCLUDE_DIR \
+    -DOPENCV_INCLUDE_DIR=$OPENCV_INCLUDE_DIR
+
+    make -j8
+cd -
